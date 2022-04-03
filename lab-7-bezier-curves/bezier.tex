@@ -1,0 +1,254 @@
+\documentclass[12pt]{article}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{.5em}
+
+\usepackage{framed}
+\newcounter{problem}
+\newcounter{problempart}[problem]
+\newcounter{solutionpart}[problem]
+\newenvironment{problem}{\stepcounter{problem}\noindent{\bf\arabic{problem}.}}{\setcounter{problempart}{0}\setcounter{solutionpart}{0}}
+\newenvironment{solution}{\par\textcolor{green!50!black}\bgroup}{\egroup\par}
+\newcommand{\qpart}{\stepcounter{problempart}${}$\\\noindent{(\alph{problempart})} }
+\newcommand{\spart}{\stepcounter{solutionpart}${}$\\\noindent{(\alph{solutionpart})} }
+\newcommand{\TODO}{\textcolor{red}{$\blacksquare$}}
+\newcommand{\SOL}[1]{\textcolor{green!50!black}{#1}}
+
+\usepackage{hyperref}
+\usepackage{fullpage}
+\usepackage{amsmath,mathabx,MnSymbol}
+\usepackage{color,tikz}
+\usepackage{pstricks}
+\usepackage{pst-plot,pst-node}
+\usepackage{footnote,enumitem}
+\usepackage{longtable}
+\newcommand{\mx}[1]{\begin{pmatrix}#1\end{pmatrix}}
+\definecolor{dkgreen}{rgb}{0,.5,0}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\newcommand{\uu}{\mathbf{u}}
+\newcommand{\vv}{\mathbf{v}}
+\newcommand{\cc}{\mathbf{c}}
+\newcommand{\ww}{\mathbf{w}}
+\newcommand{\xx}{\mathbf{x}}
+\newcommand{\zz}{\mathbf{z}}
+\newcommand{\ee}{\mathbf{e}}
+\newcommand{\pp}{\mathbf{p}}
+\newcommand{\qq}{\mathbf{q}}
+\renewcommand{\AA}{\mathbf{A}}
+\newcommand{\BB}{\mathbf{B}}
+\newcommand{\nn}{\mathbf{n}}
+\newcommand{\gp}[1]{\left(#1\right)}
+
+\newcommand{\TODOL}[1]{\textcolor{red}{\underline{\hspace{#1 cm}}}}
+
+\usepackage{listings}
+
+\lstset{
+  language=C++,
+  showstringspaces=false,
+  identifierstyle=\color{magenta},
+  basicstyle=\color{magenta},
+  keywordstyle=\color{blue},
+  identifierstyle=\color{black},
+  commentstyle=\color{green},
+  stringstyle=\color{red}
+}
+
+\begin{document}
+
+\title{CS130 - LAB - B\'ezier curves}
+\date{}
+\author{Name: \TODOL7\qquad\qquad SID: \TODOL4}
+\maketitle
+\begin{center}
+\end{center}
+
+In this lab, we will render an approximation of a parametric curve known as the
+B\'ezier.
+
+Consider the parametric equation of a segment between two control points $P_0$ and
+$P_1$
+\begin{align}\label{eqn:p01}
+B(t) = (1 - t) P_0 + t P_1
+\end{align}
+For $n$ control points, we can recursively apply Eq. (\ref{eqn:p01}) to
+consecutive control points until we are left with only $P(t)$. For three control
+points, $B(t) = (1 - t) [ (1 - t) P_0 + t P_1 ] + t [ (1 - t) P_1 + t P_2]$.
+
+\begin{problem}
+Given $n$ control points, what is the degree of the polynomial equation for
+the B\'ezier curve?  In general, $B(t)$ for $n+1$ points is given by:
+\begin{align*}
+B(t) = \sum_{i=0}^n \binom{n}{i} t^i (1-t)^{n-i} P_i
+\end{align*}
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+Since we may need the factorial $n!$, combination $\binom{n}{i}$, and polynomial
+of $B(t)$ in this lab, complete the code to for these functions below.
+\begin{lstlisting}
+float factorial(int n)
+{
+
+  
+}
+
+float combination(int n, int i)
+{
+
+  
+}
+
+float polynomial(int n, int i, float t)
+{
+
+  
+}
+\end{lstlisting}
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+The code is an $O(n^2)$ algorithm for computing the $n+1$
+coefficients
+\begin{align*}
+  c_i = \binom{n}{i} t^i (1-t)^{n-i}.
+\end{align*}
+Next, lets improve upon this.  Let
+\begin{align*}
+  r_i &= \binom{n}{i} t^i &
+  s_i &= (1-t)^{n-i} &
+  c_i &= r_i s_i
+\end{align*}
+
+\begin{problem}
+  The advantage of dividing $c_i$ into two parts is that $r_i$ can be easily
+  computed left to right, since $r_0 = \TODOL2$ and $r_i = (\TODOL2) r_{i-1}$.
+  Similarly, $s_i$ can be easily computed right to left, since $s_n = \TODOL2$
+  and $s_i = (\TODOL2) s_{i+1}$.  Note that each of these expressions should be
+  $O(1)$ and use only basic arithmetic (\texttt{+,-,*,/}).
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+Next, write code for an $O(n)$ algorithm that computes all of the coefficients
+\texttt{c[0]}, \ldots, \texttt{c[n]} at once.  Use only basic arithmetic
+(\texttt{+,-,*,/}).
+  \begin{lstlisting}
+void coefficients(float* c, int n, float t)
+{
+
+
+}
+\end{lstlisting}
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{tikzpicture}[scale=4]
+  \draw[very thick,blue] (0,0) .. controls (1,1) .. (2,0);
+  \draw[very thick,dashed] (0,0)--(1,1)--(2,0);
+  \draw[fill=black,draw=none,inner sep=10] (0,0) circle (.05) node[left]{$A$};
+  \draw[fill=black,draw=none,inner sep=10] (1,1) circle (.05) node[above]{$B$};
+  \draw[fill=black,draw=none,inner sep=10] (2,0) circle (.05) node[right]{$C$};
+\end{tikzpicture}
+
+We can construct the quadratic B\'ezier curve by assuming that it takes the
+general form $P(t) = (a_2 t^2 + a_1 t + a_0) A + (b_2 t^2 + b_1 t + b_0) B +
+(c_2 t^2 + c_1 t + c_0) C$.  We can use the properties below to solve for the
+coefficients.
+
+\begin{problem}
+Assumption: $P(0) = A$.  Use this to solve for $a_0 = \TODOL1$, $b_0 = \TODOL1$, and
+$c_0 = \TODOL1$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+Assumption: $P(1) = C$.  Use this to solve for $a_1 = \TODOL1$, $b_1 = \TODOL1$, and
+$c_1 = \TODOL1$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+Assumption: If $A = B = C$, then $P(t) = A$ for all $t$.  Use this to solve for $b_2 = \TODOL1$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+  Assumption: $P'(0)$ depends on $A$ and $B$, but it does not depend on $C$.
+  Use this to solve for $c_2 = \TODOL1$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+  Assumption: $P'(1)$ depends on $B$ and $C$, but it does not depend on $A$.
+  Use this to solve for $a_2 = \TODOL1$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+  Substituting in all of the coefficients and \textit{factoring the resulting
+    polynomials} produces $P(t) = (\TODOL4) A + (\TODOL4) B + (\TODOL4) C$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\begin{problem}
+  One can show that $P'(0) = \alpha (B-A)$ and $P'(1) = \beta (B-C)$.  Find
+  $\alpha$ and $\beta$.
+\end{problem}
+
+\begin{solution}
+  \textbf{\textcolor{red}{\TODO}}
+\end{solution}
+
+\section*{Part 2: Coding}
+
+Download the skeleton code and modify \texttt{main.cpp} as follows:
+\begin{itemize}
+\item Define a global vector to store the control points.
+\item Push back the mouse click coordinates into the vector in the function
+  \texttt{GL\_mouse}.
+\item Write the code for the \texttt{factorial}, \texttt{combination} and \texttt{binomial}.
+\item Draw line segments between points along the B\'ezier curve in \texttt{GL\_render()}.
+\item You can use \texttt{GL\_LINE\_STRIP} to draw line segments between consecutive
+  points.
+\item You can iterate t between 0 and 1 in steps of 0.01.
+\end{itemize}
+Optional: Rather than using the general equation for the B\'ezier curve to write
+your program, you can write a program where you recursively apply
+Eq. (\ref{eqn:p01}) to consecutive points to get $B(t)$.  Alternatively, you can
+use the more efficient algorithm \texttt{coefficients}.
+
+\end{document}
